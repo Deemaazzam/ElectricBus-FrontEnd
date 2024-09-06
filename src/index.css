@@ -1,0 +1,102 @@
+*{
+  margin: 0%;
+  padding:0;
+  box-sizing: border-box;
+}
+body {
+ margin: 0;
+ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+   'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+   sans-serif;
+ -webkit-font-smoothing: antialiased;
+ -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+ font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+   monospace;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
+select{
+  font-size: 1rem;
+  font-size:13px;
+  width:100%;
+  height:50%
+}
+
+/* ElectricBusFeatures.css */
+.features-container {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 20px;
+  padding: 20px;
+}
+
+.tilt-wrapper {
+  display: inline-block;
+  width: 100%;
+}
+
+.tilt-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.feature-card img {
+  width: 50px;
+  margin-bottom: 10px;
+}
+
+.feature-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.feature-card p {
+  font-size: 0.9rem;
+  color: #555;
+}
+@media screen and (max-width: 768px) {
+  .features-container {
+    grid-template-columns: repeat(1, 1fr); /* 1 card per row on small screens */
+  }
+}
