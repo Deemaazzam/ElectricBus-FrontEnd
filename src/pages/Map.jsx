@@ -1,24 +1,44 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect} from 'react';
+import {useNavigate} from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import './LocationAccess.css';
-
-// Fix for marker icon in Leaflet (since default icons won't load)
+import loc from './../assets/compass.png';
+import { StyledSubTitle,colors } from '../components/Styles';
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
   iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
 });
+const getCurrentTimeWithinRange = () => {
+  const now = new Date();
+  const hours = now.getHours();
+  const minutes = now.getMinutes();
 
-const LocationAccess = () => {
+  if (hours < 6) {
+    return '06:00';
+  } else if (hours >= 18) {
+    return '18:00';
+  } else {
+    const formattedHours = String(hours).padStart(2, '0');
+    const formattedMinutes = String(minutes).padStart(2, '0');
+    return `${formattedHours}:${formattedMinutes}`;
+  }
+};
+
+const LocationAccess = ({id}) => {
+  const navigate = useNavigate();
   const [location, setLocation] = useState(null);
-  const [pickupLocation, setPickupLocation] = useState(null);
+  const [pickupLocation, setPickupLocation] = useState('');
   const [destination, setDestination] = useState('');
   const [numPassengers, setNumPassengers] = useState(1);
   const [error, setError] = useState(null);
+  const [timeError, setTimeError] = useState('');
   const [destinationCoordinates, setDestinationCoordinates] = useState(null);
+  const [scheduleDate, setScheduleDate] = useState(new Date().toISOString().split('T')[0]);
+  const [scheduleTime, setScheduleTime] = useState(getCurrentTimeWithinRange());
 
   const fetchAddress = async (latitude, longitude) => {
     try {
@@ -86,36 +106,69 @@ const LocationAccess = () => {
     }
   };
 
+  const handleDateChange = (e) => {
+    setScheduleDate(e.target.value);
+  };
+
+  const handleTimeChange = (e) => {
+    const selectedTime = e.target.value;
+    setScheduleTime(selectedTime);
+    const [hours] = selectedTime.split(':').map(Number);
+
+    if (hours < 6 || hours >= 18) {
+      setTimeError('No service at this time. Please select a time between 6 AM and 6 PM.');
+    } else {
+      setTimeError('');
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (timeError) {
+      console.log('Error:', timeError);
+      return;
+    }
+    const requestData = {
+      pickupLocation,
+      destination,
+      numPassengers,
+      scheduleDate,
+      scheduleTime,
+      destinationCoordinates,
+    };
     console.log('Submitting data:', {
       pickupLocation,
       destination,
       numPassengers,
+      scheduleDate,
+      scheduleTime,
       destinationCoordinates,
     });
+    navigate('/thank-you', { state: { requestData, status: 'Waiting for a bus' } });
   };
 
   return (
-    <div className="location-access-container">
+    <div>
+    <StyledSubTitle color={colors.dark1} style={{fontSize:"20px",fontWeight:"bold"}}>We provide reliable and efficient transportation services to your desired destination. Please provide your pick-up location, destination, and the number of passengers. You can also schedule your ride for a specific date and time. Our service operates between 6 AM and 6 PM. Thank you for choosing us!
+      </StyledSubTitle>
+    <div className="location-access-container" id={id}>
+      
       <div className="pickup-details">
         <h2>Pickup Details</h2>
-        <button onClick={handleLocationAccess} className="btn1">
-          {location ? 'Location Enabled' : 'Enable Location'}
-        </button>
         <div className="input-field">
           <label>
             Pick-Up Location:
-            {pickupLocation ? (
-              <input
-                type="text"
-                value={pickupLocation}
-                readOnly
-                style={{ marginLeft: '10px', width: '250px' }}
-              />
-            ) : (
-              <span> Waiting for location...</span>
-            )}
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+            <input
+        type="text"
+        value={pickupLocation}
+        onChange={(e) => setPickupLocation(e.target.value)} 
+        style={{ marginLeft: '10px', width: '250px' }}
+      />
+              <button onClick={handleLocationAccess} className="btn1" style={{ marginLeft: '10px' ,width:'50px'}}>
+                <img src={loc} alt="image" style={{width:'30px'}}/>
+              </button>
+            </div>
           </label>
         </div>
         <div className="input-field">
@@ -142,7 +195,32 @@ const LocationAccess = () => {
             />
           </label>
         </div>
-        <button onClick={handleSubmit} className='btn1'>Submit</button>
+        <div className="input-field">
+          <label>
+            Schedule Date:
+            <input
+              type="date"
+              value={scheduleDate}
+              onChange={handleDateChange}
+              style={{ marginLeft: '10px' }}
+            />
+          </label>
+        </div>
+        <div className="input-field">
+          <label>
+            Schedule Time (6 AM to 6 PM):
+            <input
+              type="time"
+              min="06:00"
+              max="18:00"
+              value={scheduleTime}
+              onChange={handleTimeChange}
+              style={{ marginLeft: '10px' }}
+            />
+          </label>
+          {timeError && <p style={{ color: 'red' }}>{timeError}</p>}
+        </div>
+        <button onClick={handleSubmit} className="btn1">Submit</button>
       </div>
 
       <div className="map-container">
@@ -172,9 +250,9 @@ const LocationAccess = () => {
         )}
       </div>
     </div>
+    </div>
   );
 };
-
 export default LocationAccess;
 
 

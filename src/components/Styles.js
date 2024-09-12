@@ -229,6 +229,7 @@ export const A=styled.a`
     font-weight:bold;
     margin:10px;
     border-raduis:20px;
+    text-decoration:none;
     &:hover {
     color: #007bff; 
     cursor: pointer; 

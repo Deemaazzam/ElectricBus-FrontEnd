@@ -4,18 +4,20 @@ import { motion } from "framer-motion";
 import {Tilt} from "react-tilt";
 import { features } from "./../constants/features"; 
 import "./../index.css"
-
+import { StyledSubTitle,colors } from "../components/Styles";
 const cardVariants = {
-  hidden: { opacity: 0, y: 50 }, // Initially hidden and slightly off-position
+  hidden: { opacity: 0, y: 50 }, 
   visible: { 
     opacity: 1, 
     y: 0, 
-    transition: { duration: 0.5, ease: "easeOut" }  // Smooth animation on enter
+    transition: { duration: 0.5, ease: "easeOut" }  
   }
 };
 
-const ElectricBusFeatures = () => {
+const ElectricBusFeatures = ({id}) => {
   return (
+    <div id={id}>
+    <StyledSubTitle color={colors.dark1} style={{fontSize:"20px",fontWeight:"bold"}}>Explore the Innovative Technologies our Behind Electric Buses</StyledSubTitle>
     <div className="features-container">
       {features.map((feature) => (
         <motion.div
@@ -23,12 +25,12 @@ const ElectricBusFeatures = () => {
           className="tilt-wrapper"
           variants={cardVariants}
           initial="hidden"
-          whileInView="visible" // Trigger animation when in view
-          viewport={{ once: true, amount: 0.2 }} // Trigger when 20% is in view
-          whileHover={{ scale: 1.05 }} // Slightly increase the card size on hover
+          whileInView="visible" 
+          viewport={{ once: true, amount: 0.2 }} 
+          whileHover={{ scale: 1.05 }} 
         >
           <Tilt
-            options={{ max: 25, scale: 1, speed: 400 }} // React Tilt options
+            options={{ max: 25, scale: 1, speed: 400 }} 
             className="tilt-card"
           >
             <div className="feature-card">
@@ -39,6 +41,7 @@ const ElectricBusFeatures = () => {
           </Tilt>
         </motion.div>
       ))}
+    </div>
     </div>
   );
 };

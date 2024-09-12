@@ -1,4 +1,5 @@
-<<<<<<< HEAD
+
+
 *{
   margin: 0%;
   padding:0;
@@ -11,12 +12,20 @@ body {
    sans-serif;
  -webkit-font-smoothing: antialiased;
  -moz-osx-font-smoothing: grayscale;
+ overflow-x: hidden;
 }
-
+:root {
+  --marquee-width: 100vw;
+  --marquee-height: 50vh;
+  --marquee-elements: 9;
+  --marquee-elements-displayed: 4;
+  --marquee-elements-width: calc(var(--marquee-width) / var(--marquee-elements-displayed));
+  --marquee-animation-duration: calc(var(--marquee-elements) * 4s);
+}
 code {
  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-   monospace;
-=======
+   monospace}
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -31,30 +40,10 @@ code {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
->>>>>>> 4d7f27c740cb43eab56766f6a2f9f24346c572af
-}
-
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
 }
-
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -86,15 +75,17 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
-<<<<<<< HEAD
+
 select{
   font-size: 1rem;
   font-size:13px;
   width:100%;
   height:50%
 }
-
-/* ElectricBusFeatures.css */
+html {
+  scroll-behavior: smooth;
+}
+/* ElectricBusFeatures */
 .features-container {
   display: grid;
   grid-template-columns: repeat(3,1fr);
@@ -131,8 +122,347 @@ select{
 }
 @media screen and (max-width: 768px) {
   .features-container {
-    grid-template-columns: repeat(1, 1fr); /* 1 card per row on small screens */
+    grid-template-columns: repeat(1, 1fr); 
   }
 }
-=======
->>>>>>> 4d7f27c740cb43eab56766f6a2f9f24346c572af
+
+/* ElectricBusFeatures.css */
+.features-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); 
+  gap: 20px;
+  padding: 20px;
+}
+
+.tilt-wrapper {
+  width: 100%;
+}
+
+.tilt-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+}
+
+.feature-card img {
+  width: 50px;
+  margin-bottom: 10px;
+}
+
+.feature-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.feature-card p {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+
+@media screen and (max-width: 1200px) {
+  .features-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .features-container {
+    grid-template-columns: repeat(1, 1fr); 
+  }
+}
+/* Safety features */
+.marquee {
+ 
+  color: #eee;
+  width: var(--marquee-width);
+  height: var(--marquee-height);
+  overflow: hidden;
+  position: relative;
+}
+
+.marquee-content {
+  list-style: none;
+  height: 100%;
+  display: flex;
+  animation: scrolling var(--marquee-animation-duration) linear infinite;
+  cursor: pointer;
+}
+
+@keyframes scrolling {
+  0% {
+      transform: translateX(0);
+  }
+  100% {
+      transform: translateX(calc(-1 * var(--marquee-elements-width) * var(--marquee-elements)));
+  }
+}
+
+.marquee-content li {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--marquee-elements-width);
+  flex-shrink: 0;
+  white-space: normal; /* Allowing normal wrapping for text inside divs */
+  padding: 1rem;
+}
+
+.marquee-content li div {
+  background-color: #ffffff;
+  color: #000000;
+  border-radius: 15%;
+  padding: 1rem;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  display: flex; /* Enable Flexbox layout */
+  flex-direction: column; /* Arrange children vertically */
+  align-items: center; /* Center horizontally */
+  justify-content: center; /* Center vertically */
+  border: solid 2px rgb(0, 0, 0); 
+}
+
+.marquee-content li div h4 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.marquee-content li div p {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.marquee:before, 
+.marquee:after {
+  position: absolute;
+  top: 0;
+  width: 10rem;
+  height: 100%;
+  content: "";
+  z-index: 1;
+}
+
+.marquee:before {
+  left: 0;
+  background: linear-gradient(to right, #666b72 0%, transparent 100%);
+}
+
+.marquee:after {
+  right: 0;
+  background: linear-gradient(to left, #666b72 0%, transparent 100%);
+}
+
+.marquee-content:hover {
+  animation-play-state: paused;
+}
+
+@media (max-width: 970px) {
+  html {
+      font-size: 12px;
+  }
+
+  :root {
+      --marquee-width: 100vw;
+      --marquee-height: 67vh;
+      --marquee-elements-displayed: 2;
+  }
+
+  .marquee:before, .marquee:after {
+      width: 5rem;
+  }
+}
+@media (max-width: 700px) {
+  html {
+      font-size: 12px;
+  }
+
+  :root {
+      --marquee-width: 100vw;
+      --marquee-height: 67vh;
+      --marquee-elements-displayed: 2;
+  }
+
+  .marquee:before, .marquee:after {
+      width: 5rem;
+  }
+}
+/* FOOTER */
+.footer {
+  background-color: #2c3e50;
+  color: #ecf0f1;
+  padding: 40px 20px;
+  font-family: 'Arial', sans-serif;
+}
+
+.footer-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-section {
+  flex: 1;
+  margin: 10px;
+  min-width: 220px;
+}
+
+.footer-title {
+  font-size: 1.4em;
+  margin-bottom: 20px;
+  color: #ecf0f1;
+}
+
+.footer-section p, .footer-section a {
+  color: #bdc3c7;
+  text-decoration: none;
+  margin: 5px 0;
+}
+
+.footer-section a:hover {
+  text-decoration: underline;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-links li {
+  margin: 10px 0;
+}
+
+.footer-links a {
+  color: #bdc3c7;
+  font-size: 1em;
+}
+
+.footer-links a:hover {
+  color: #3498db;
+}
+
+.social-icons {
+  display: flex;
+  gap: 15px;
+}
+
+.social-icons a {
+  color: #ecf0f1;
+  font-size: 24px;
+  transition: color 0.3s ease;
+}
+
+.social-icons a:hover {
+  color: #3498db;
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.footer-bottom p {
+  margin: 0;
+  font-size: 14px;
+}
+/* Thank you page */
+/* Thank You Page Main Container */
+/* Page Background and Centering */
+.thank-you-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Full viewport height */
+  min-width: 100vw; /* Full viewport width */
+  background: linear-gradient(to right, #4B5563, #4b5f63);
+  font-family: 'Arial', sans-serif;
+}
+
+/* Content Container */
+.thank-you-content {
+  text-align: center;
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  width: 90%; /* Responsive width */
+  max-width: 600px; /* Max width to keep the content centered */
+  position: relative;
+}
+
+/* Header Styles */
+.header h1 {
+  font-size: 2.5rem; /* Slightly smaller for better fit */
+  color: #333;
+  margin-bottom: 10px;
+  animation: fadeIn 1s ease-out;
+}
+
+.header p {
+  font-size: 1.1rem; /* Slightly smaller for a balanced look */
+  color: #666;
+  margin-bottom: 20px;
+  animation: fadeIn 1s ease-out 0.5s;
+}
+
+/* Status Container Styles */
+.status-container {
+  margin: 20px 0;
+  font-size: 1.3rem; /* Adjusted for readability */
+}
+
+.status-container h2 {
+  color: #333;
+}
+
+.error {
+  color: red;
+  margin-top: 10px;
+}
+
+/* Illustration Styles */
+.illustration {
+  margin: 20px 0;
+}
+
+.illustration img {
+  width: 100%;
+  max-width: 250px; /* Adjusted for better scaling */
+  height: auto; /* Maintain aspect ratio */
+  animation: bounceIn 1.5s ease-out;
+}
+
+/* Return Home Button Styles */
+.return-home-button {
+  display: inline-block;
+  padding: 12px 24px;
+  background: #1F2937;
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 25px;
+  font-size: 1.1rem; /* Slightly smaller for consistency */
+  transition: background 0.3s ease;
+}
+
+.return-home-button:hover {
+  background: #E5E7EB; /* Light hover effect */
+  color: #1F2937; /* Text color change on hover */
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes bounceIn {
+  0% { transform: scale(0); opacity: 0; }
+  60% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); }
+}
+

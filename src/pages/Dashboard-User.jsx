@@ -1,5 +1,6 @@
 import { StyledTitle,StyledSubTitle,Avatar,StyledButton,BtnGroup,StyledFormArea,colors,Header,A,StyledDash,Ul
  ,Sidebar,MenuButton,CloseButton} from "../components/Styles"
+ import {Link} from 'react-scroll';
 import logo from './../assets/logo.png';
 import road from './../assets/img2.png';
 import build from './../assets/img1.png';
@@ -8,7 +9,21 @@ import pro from './../assets/logo1.png'
 import { useState ,useEffect,useRef} from "react";
 import LocationAccess from "./Map";
 import ElectricBusFeatures from "./Features";
+import AboutComponent from "./Safety";
+import ContactPage from "./Contact";
+import Footer from "./Footer";
+
 const DashBoard=()=>{
+    const scrollToSection = (id) => {
+        setTimeout(() => {
+            const section = document.getElementById(id);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+            } else {
+                console.error(`Section with id ${id} not found`);
+            }
+        }, 100); // 100ms delay
+    };
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const bgRef = useRef(null);
     const roadRef = useRef(null);
@@ -79,24 +94,24 @@ const DashBoard=()=>{
     };
     return (
         <StyledDash>
-            <Header>
+            <Header id="home">
             <Avatar image={logo} style={{marginLeft:"0px"}}/> 
             <MenuButton onClick={toggleSidebar}>☰</MenuButton>
             <Ul>
-                <li>   <A>Home</A> </li>
-                <li>   <A>Book</A> </li>
-                <li>   <A>About</A> </li>
-                <li>   <A>Contact</A> </li>
+                <li>   <A onClick={()=>scrollToSection('home')}> Home</A> </li>
+                <li>   <A onClick={()=>scrollToSection('book')}>Book</A> </li>
+                <li>   <A  onClick={()=>scrollToSection('about')}>About</A> </li>
+                <li>   <A onClick={()=>scrollToSection('contact')}>Contact</A> </li>
                 <li>    <A><img src={pro} style={{width:'35px'}}/></A></li>
             </Ul>
             </Header>
             <Sidebar isOpen={sidebarOpen}>
             <CloseButton onClick={toggleSidebar}>×</CloseButton>
                 <ul>
-                <li><A>Home</A></li>
-                <li><A>Book</A></li>
-                <li><A>About</A></li>
-                <li><A>Contact</A></li>
+                <li><A >Home</A></li>
+                <li><A onClick={()=>{scrollToSection('book'); toggleSidebar();}}>Book</A></li>
+                <li><A onClick={()=>{scrollToSection('about'); toggleSidebar();}}>About</A></li>
+                <li><A onClick={()=>{scrollToSection('about'); toggleSidebar();}}>Contact</A></li>
                 <li><A>Profile</A></li>
                 </ul>
             </Sidebar>
@@ -108,9 +123,11 @@ const DashBoard=()=>{
                 <h2 id="text" ref={textRef} style={styles.text}>Campus Ride</h2>
                 
             </section>
-            <LocationAccess/>
-            <ElectricBusFeatures/>
-
+            <LocationAccess id={"book"}/>
+            <ElectricBusFeatures id={"about"}/>
+            <AboutComponent/>
+            <ContactPage id={"contact"}/>
+            <Footer/>
         </StyledDash>
     )
 }

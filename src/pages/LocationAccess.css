@@ -28,7 +28,7 @@
     aspect-ratio: 4 / 3; 
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 970px) {
     .location-access-container {
       grid-template-columns: 1fr; 
       grid-template-areas:
